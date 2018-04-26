@@ -67,7 +67,7 @@ namespace MobileApps.MobileAppService.Controllers
             // Send the message so that all template registrations that contain "messageParam"
             // receive the notifications. This includes APNS, GCM, WNS, and MPNS template registrations.
             Dictionary<string, string> templateParams = new Dictionary<string, string>();
-            templateParams["messageParam"] = "boleta Id: " + boleta.idBoleta + " fue agregada";
+            templateParams["messageParam"] = "Boleta Id:" + boleta.idBoleta + " fue agregada";
 
             try
             {

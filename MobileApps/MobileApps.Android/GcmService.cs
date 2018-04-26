@@ -89,7 +89,7 @@ namespace MobileApps.Droid
             string message = intent.Extras.GetString("message");
             if (!string.IsNullOrEmpty(message))
             {
-                createNotification("New message", message);
+                createNotification("Boletas App", message);
                 return;
             }
 
