@@ -6,6 +6,10 @@ using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
 
+using System.Collections.Generic;
+using Microsoft.Azure.NotificationHubs;
+using Microsoft.Azure.Mobile.Server.Config;
+
 using MobileApps.MobileAppService.DataObjects;
 using MobileApps.MobileAppService.Models;
 
@@ -44,6 +48,45 @@ namespace MobileApps.MobileAppService.Controllers
         public async Task<IHttpActionResult> PostBoleta(Boletas boleta)
         {
             Boletas current = await InsertAsync(boleta);
+
+            // Adding push notification
+            // Get the settings for the server project.
+            HttpConfiguration config = this.Configuration;
+            MobileAppSettingsDictionary settings =
+                this.Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
+
+            // Get the Notification Hubs credentials for the mobile app.
+            string notificationHubName = settings.NotificationHubName;
+            string notificationHubConnection = settings
+                .Connections[MobileAppSettingsKeys.NotificationHubConnectionString].ConnectionString;
+
+            // Create a new Notification Hub client.
+            NotificationHubClient hub = NotificationHubClient
+            .CreateClientFromConnectionString(notificationHubConnection, notificationHubName);
+
+            // Send the message so that all template registrations that contain "messageParam"
+            // receive the notifications. This includes APNS, GCM, WNS, and MPNS template registrations.
+            Dictionary<string, string> templateParams = new Dictionary<string, string>();
+            templateParams["messageParam"] = "boleta Id: " + boleta.idBoleta + " fue agregada";
+
+            try
+            {
+                // Send the push notification and log the results.
+                var result = await hub.SendTemplateNotificationAsync(templateParams);
+
+                // Write the success result to the logs.
+                config.Services.GetTraceWriter().Info(result.State.ToString());
+            }
+            catch (System.Exception ex)
+            {
+                // Write the failure result to the logs.
+                config.Services.GetTraceWriter()
+                    .Error(ex.Message, null, "Push.SendAsync Error");
+            }
+
+
+            //
+
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 

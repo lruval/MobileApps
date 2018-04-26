@@ -1,0 +1,20 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/MobileApps/MobileApps/bin
+/MobileApps/MobileApps/obj
+/MobileApps/MobileApps.Android/bin
+/MobileApps/MobileApps.Android/obj
+/MobileApps/MobileApps.MobileAppService/bin
+/MobileApps/MobileApps.MobileAppService/obj
+/MobileApps/MobileApps.UWP/bin
+/MobileApps/MobileApps.UWP/obj
+/MobileApps/MobileApps.iOS/bin
+/MobileApps/MobileApps.iOS/obj
+/.vs/MobileApps/v15/Server/sqlite3/db.lock
+/.vs/MobileApps/v15/Server/sqlite3/storage.ide
+/.vs/MobileApps/v15/Server/sqlite3/storage.ide-wal
+/.vs/MobileApps/v15/Server/sqlite3/storage.ide-shm
+/.vs/config/applicationhost.config
+/.vs/MobileApps/v15/.suo
